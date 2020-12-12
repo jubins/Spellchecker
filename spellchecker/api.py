@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 class Home(Resource):
     def get(self):
-        response = {"message": "Welcome to the Spellchecker API! Go to /spellchecker/{word} to spellcheck."}
+        response = {"message": "Welcome to the Spellchecker API! Go to http://localhost:31337/spellchecker/{word} to spellcheck."}
         return response
 
 
@@ -19,12 +19,13 @@ class Spellchecker(Resource):
         sc = SpellCheck()
         word_found, suggestions = sc.run(word)
         response = {"suggestions": suggestions,
-                    "correct": word_found
-                    }
+                    "correct": word_found}
+        status_code = 200
         if not word_found and not suggestions:
-            response = {'message': f'Word: {word} not found.', 'status_code': 404}
+            response = {'message': f'Word: {word} not found.'}
+            status_code = 404
 
-        return response
+        return response, status_code
 
     @app.errorhandler(InvalidUsage)
     def handle_word_not_found(self, error):
