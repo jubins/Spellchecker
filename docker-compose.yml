@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  device-registry:
+    build: ./spellchecker
+    volumes:
+    - ./spellchecker:/usr/src/app
+    ports:
+    - 31337:31337
+
