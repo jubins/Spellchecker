@@ -8,7 +8,7 @@ A client has asked us to write a custom API to help them determine if a word is 
 2. Docker/Docker-compose. If you do not have docker installed, follow instructions in Non-dockerized: Setting up the server.
 
 #### Docker: Setting up the server
-1. Make sure have docker/docker-compose installed and running otherwise follow non-dockerized setup.
+1. Make sure have docker/docker-compose installed and running, otherwise follow non-dockerized setup.
 2. From your terminal go to main project directory i.e. the Spellchecker project directory that contains the `docker-compose.yml` file.
 3. Type `docker-compose up --build` to start the server. You will see docker building device registry and starting the Flask server.
 4. Go to your browser and copy-paste `http://localhost:31337`. If you see a welcome message then you've successfully setup the server and ready to start using the API.

@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask import Response
 from flask_restful import Api, Resource
 
 from validators import Validate, InvalidUsage
@@ -9,8 +10,9 @@ app = Flask(__name__)
 
 class Home(Resource):
     def get(self):
-        response = {"message": "Welcome to the Spellchecker API! Go to http://localhost:31337/spellchecker/{word} to spellcheck."}
-        return response
+        mimetype='text/html'
+        html = "<h1> Welcome to the Spellchecker API! </h1> <h3> Go to http://localhost:31337/spellchecker/{word} to spellcheck. Replace {word} with word of your choice! </h3>"
+        return Response(html, mimetype)
 
 
 class Spellchecker(Resource):
