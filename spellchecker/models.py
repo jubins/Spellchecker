@@ -22,7 +22,7 @@ class PrefixTrie(object):
             if c not in cur.leaves:
                 return False
             cur = cur.leaves[c]
-        return True
+        return cur.is_string
 
     def helper_suggest(self, cur, temp_word, word_list):
         # it should recurse all the branches of the cur, add the prefix to it and add to the word list
@@ -71,13 +71,12 @@ class SpellCheck(object):
         lower_case = word.lower()
         return word not in {title_case, upper_case, lower_case}
 
-    @staticmethod
-    def __repeating_chars(word):
+    def __repeating_chars(self, word):
+        word = word.lower()
         n = len(word)
         if n <= 2:
             return False
         i = 0
-        word = word.lower()
         while i < n-2:
             if word[i] == word[i+1] == word[i+2]:
                 return True
@@ -96,9 +95,16 @@ class SpellCheck(object):
     def run(self, word):
         suggestions = list()
         word_found = True
-        if not self.conforms(word):
-            word_found = False
-            suggestions = self.get_suggestions(word)
-        elif self.conforms(word) and not self.is_word_in_dictionary(word):
-            word_found = False
+        if len(word) <= 2:
+            if self.__mixed_casing(word):
+                word_found = False
+                suggestions = self.get_suggestions(word)
+            elif not self.is_word_in_dictionary(word):
+                word_found = False
+        else:
+            if not self.conforms(word):
+                word_found = False
+                suggestions = self.get_suggestions(word)
+            elif self.conforms(word) and not self.is_word_in_dictionary(word):
+                word_found = False
         return word_found, suggestions
