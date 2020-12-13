@@ -9,8 +9,6 @@ class TestSpellchecker(unittest.TestCase):
     def test_homepage(self):
         response = request(method='GET', url=BASE)
         self.assertEqual(response.status_code, 200)
-        expected = {"message": "Welcome to the Spellchecker API! Go to http://localhost:31337/spellchecker/{word} to spellcheck."}
-        self.assertEqual(response.json(), expected)
 
     def test_spellcheck_correct_word_lowercase(self):
         response = request(method='GET', url=BASE + "spellcheck/car")

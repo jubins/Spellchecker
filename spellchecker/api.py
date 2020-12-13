@@ -12,7 +12,8 @@ class Home(Resource):
     def get(self):
         mimetype='text/html'
         html = "<h1> Welcome to the Spellchecker API! </h1> <h3> Go to http://localhost:31337/spellchecker/{word} to spellcheck. Replace {word} with word of your choice! </h3>"
-        return Response(html, mimetype)
+        status_code = 200
+        return Response(response=html, status=status_code, mimetype=mimetype)
 
 
 class Spellchecker(Resource):
