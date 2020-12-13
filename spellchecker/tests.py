@@ -12,13 +12,49 @@ class TestSpellchecker(unittest.TestCase):
         expected = {"message": "Welcome to the Spellchecker API! Go to http://localhost:31337/spellchecker/{word} to spellcheck."}
         self.assertEqual(response.json(), expected)
 
+    def test_spellcheck_correct_word_lowercase(self):
+        response = request(method='GET', url=BASE + "spellcheck/car")
+        self.assertEqual(response.status_code, 200)
+        expected = {"suggestions": [], "correct": True}
+        self.assertEqual(response.json(), expected)
+
+    def test_spellcheck_correct_word_titlecase(self):
+        response = request(method='GET', url=BASE + "spellcheck/Hello")
+        self.assertEqual(response.status_code, 200)
+        expected = {"suggestions": [], "correct": True}
+        self.assertEqual(response.json(), expected)
+
+    def test_spellcheck_correct_word_uppercase(self):
+        response = request(method='GET', url=BASE + "spellcheck/HELLO")
+        self.assertEqual(response.status_code, 200)
+        expected = {"suggestions": [], "correct": True}
+        self.assertEqual(response.json(), expected)
+
+    def test_spellcheck_correct_word_repeating_chars(self):
+        response = request(method='GET', url=BASE + "spellcheck/balllooooon")
+        self.assertEqual(response.status_code, 404)
+        expected = {"message": "Word: balllooooon not found."}
+        self.assertEqual(response.json(), expected)
+
+    def test_spellcheck_correct_word_vowels(self):
+        response = request(method='GET', url=BASE + "spellcheck/balln")
+        self.assertEqual(response.status_code, 404)
+        expected = {"message": "Word: balln not found."}
+        self.assertEqual(response.json(), expected)
+
+    def test_spellcheck_correct_word_abc_erros(self):
+        response = request(method='GET', url=BASE + "spellcheck/bllllLLlln")
+        self.assertEqual(response.status_code, 404)
+        expected = {"message": "Word: bllllLLlln not found."}
+        self.assertEqual(response.json(), expected)
+
     def test_spellcheck_correct_word(self):
         response = request(method='GET', url=BASE + "spellcheck/car")
         self.assertEqual(response.status_code, 200)
         expected = {"suggestions": [], "correct": True}
         self.assertEqual(response.json(), expected)
 
-    def test_spellcheck_suggestions_one(self):
+    def test_spellcheck_mixed_case(self):
         response = request(method='GET', url=BASE + "spellcheck/woRka")
         self.assertEqual(response.status_code, 200)
         expected = {
@@ -41,13 +77,13 @@ class TestSpellchecker(unittest.TestCase):
         expected = {"suggestions": [], "correct": True}
         self.assertEqual(response.json(), expected)
 
-    def test_spellcheck_double_char(self):
+    def test_spellcheck_duplicate_char(self):
         response = request(method='GET', url=BASE + "spellcheck/aa")
         self.assertEqual(response.status_code, 404)
         expected = {"message": "Word: aa not found."}
         self.assertEqual(response.json(), expected)
 
-    def test_spellcheck_multiple_duplicate_char(self):
+    def test_spellcheck_triple_char(self):
         response = request(method='GET', url=BASE + "spellcheck/aaa")
         self.assertEqual(response.status_code, 404)
         output = 'Word: aaa not found.' in response.text
