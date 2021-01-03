@@ -1,6 +1,6 @@
 Spellchecker
 ===
-A client has asked us to write a custom API to help them determine if a word is spelled according to their corporate standards. If not, the API should return some suggestions.
+Spellchecker is a custom API that helps determine if a word is spelled correctly. If not, the API returns some autocomplete suggestions of similar words. Built using Python Flask and Trie data structure.
 
 ### Project Setup
 #### Dependencies
